@@ -1,0 +1,42 @@
+﻿@using ItlaBankApp.Core.Application.ViewModels.Beneficiary
+@model SaveBeneficiaryViewModel
+@{
+    ViewData["Title"] = "Agregar Beneficiario";
+}
+
+<div class="container-fluid">
+    <section class="bg-primary bg-gradient border w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-between align-items-center">
+        <div>
+            <h1 class="display-6 text-white m-0 p-2">Agregar Beneficiario</h1>
+        </div>
+    </section>
+    <section class="w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-between align-items-center">
+        <div class="w-100">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+            }
+        </div>
+    </section>
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @Model.ErrorMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    <div class="row">
+        <div class="col-12">
+            <form method="post" asp-controller="Beneficiary" asp-action="Create">
+                <div class="mb-3 main-text">
+                    <label asp-for="AccountId" class="fw-bold mb-2">Número de Cuenta</label>
+                    <input class="form-control" asp-for="AccountId">
+                </div>
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary me-2">Agregar Beneficiario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

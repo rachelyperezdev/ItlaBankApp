@@ -1,0 +1,264 @@
+﻿@using Microsoft.AspNetCore.Http
+@using ItlaBankApp.Core.Application.DTOs.Account
+@using ItlaBankApp.Core.Application.Helpers
+@using Microsoft.AspNetCore.Http;
+@using ItlaBankApp.Core.Application.Enums
+@using ItlaBankApp.Core.Application.DTOs.Account;
+@using ItlaBankApp.Core.Application.ViewModels.Product;
+@using ItlaBankApp.Core.Application.ViewModels.User;
+@model UserViewModel
+
+@inject IHttpContextAccessor httpContextAccessor
+@{
+    var User = httpContextAccessor.HttpContext.Session.Get<AuthenticationResponse>("user");
+    var isAdmin = User != null ? User.Roles.Any(r => r == "Admin") : false;
+    var isClient = User != null ? User.Roles.Any(r => r == "Client") : false;
+
+    var allTimeTransactions = ViewBag.AllTimeTransactions;
+    var dailyTransactions = ViewBag.DailyTransactions;
+    var allTimePayments = ViewBag.AllTimePayments;
+    var dailyPayments = ViewBag.DailyPayments;
+    var products = ViewBag.Products;
+    var activeClients = ViewBag.ActiveClients;
+    var inactiveClients = ViewBag.InactiveClients;
+
+    var currentUserProducts = ViewBag.CurrentUserProducts;
+
+    ViewData["Title"] = "Inicio";
+}
+
+@if (isAdmin)
+{
+    <div class="container-fluid">
+        <section class="bg-primary bg-gradient border w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-center align-items-center">
+            <div>
+                <h1 class="display-6 text-white m-0 p-2">Bienvenido/a @Model.FirstName @Model.LastName</h1>
+            </div>
+        </section>
+
+        <section class="w-100 d-flex flex-row justify-content-start gap-2 align-content-center">
+            <div class="d-flex flex-column bg-transaction bg-gradient shadow-sm border border-right border-black overflow-hidden" style="width: 18rem;">
+                <h5 class="title p-4 text-center">TRANSACCIONES</h5>
+
+                <div class="w-100 p-2 main-text text-center">
+                    <h5 class="title p-4 text-center">Transacciones del día</h5>
+                    <p>@(dailyTransactions > 0 ? $"Hoy se han efectuado {dailyTransactions} transacciones." : "Hoy no se han efectuado transacciones.")</p>
+                </div>
+
+                <div class="w-100 p-2 main-text text-center">
+                    <h5 class="title p-4 text-center">Registro de Transacciones</h5>
+                    <p>@(allTimeTransactions > 0 ? $"En total, se han efectuado {allTimeTransactions} transacciones." : "Nunca se han efectuado transacciones.")</p>
+                </div>
+                <section class="w-100 overflow-auto scrollbar scrollbar-blue" style="height: 58.1vh;">
+                </section>
+            </div>
+
+            <div class="d-flex flex-column bg-white justify-content-start gap-1 align-items-center overflow-hidden" style="width: 74rem;">
+
+                <section class="rounded bg-payNprods bg-gradient mt-2 border-bottom d-flex flex-column justify-content-center gap-1 align-items-center overflow-hidden h-25 w-100">
+
+                    <div class="rounded h-25 d-flex justify-content-center align-items-center w-100">
+                        <div>
+                            <h4 class="fw-bold main-text m-0">PAGOS</h4>
+                        </div>
+                    </div>
+                    <div class="d-flex w-100 justify-content-center gap-2">
+                        <section class="main-text p-1 rounded d-flex justify-content-center align-items-center" style="width: 50%;">
+                            <div>
+                                <h5 class="d-flex flex-row align-content-center gap-2">
+                                    Hoy
+                                </h5>
+                                <p>@(dailyPayments > 0 ? $"Hoy se han efectuado {dailyPayments} pagos." : "Hoy no se han efectuado pagos.")</p>
+                            </div>
+                        </section>
+                        <section class="main-text p-1 rounded d-flex justify-content-center align-items-center" style="width: 50%;">
+                            <div>
+                                <h5 class="d-flex flex-row align-content-center gap-2">
+                                    Registro de todos los pagos
+                                </h5>
+                                <p>@(allTimePayments > 0 ? $"En total, se han efectuado {allTimePayments} pagos." : "Nunca se han efectuado pagos.")</p>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+
+
+
+                <section class="rounded mt-2 d-flex flex-row justify-content-center gap-4 align-items-center h-50 w-100">
+                    <section class="rounded bg-payNprods bg-gradient mt-2 p-2 border shadow-sm d-flex flex-column justify-content-center gap-1 align-items-center overflow-hidden h-100 w-50">
+
+                        <div class="w-100 rounded h-50 d-flex flex-row justify-content-center align-items-center">
+                            <section class="text-center">
+                                <h4 class="fw-bold main-text m-0">CLIENTES</h4>
+                            </section>
+                        </div>
+                        <div class=" main-text d-flex flex-row justify-content-between align-items-center ">
+
+                            <section class="w-50 mx-2">
+                                <h5 class="d-flex flex-row align-content-center gap-2">
+                                    Activos
+                                </h5>
+                                <p>@(activeClients > 0 ? $"{activeClients} clientes activos." : "0 clientes activos.")</p>
+                            </section>
+
+                            <section class="w-50 mx-2">
+                                <h5 class="d-flex flex-row align-content-center gap-2">
+                                    Inactivos
+                                </h5>
+                                <p>@(inactiveClients > 0 ? $"{inactiveClients} clientes inactivos." : "0 clientes inactivos.")</p>
+                            </section>
+
+                        </div>
+
+                    </section>
+                    <section class="bg-payNprods bg-gradient rounded mt-2 p-2 border shadow-sm d-flex flex-column justify-content-center gap-1 align-items-center overflow-hidden h-100 w-50">
+
+                        <div class="w-100 rounded h-50 d-flex flex-row justify-content-center align-items-center">
+                            <section class="text-center">
+                                <h4 class="fw-bold main-text m-0">PRODUCTOS</h4>
+                            </section>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-between align-items-center ">
+
+                            <section class="w-100 mx-2">
+                                <p class="text-opacity-75 main-text">@(products > 0 ? $"Hay {products} productos asignados a clientes." : "No hay productos asignados a ningún cliente.")</p>
+                            </section>
+
+                        </div>
+
+                    </section>
+
+                </section>
+
+            </div>
+
+        </section>
+    </div>
+
+}
+else if (isClient)
+{
+<div class="container-fluid">
+        <section class=" w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-center align-items-center">
+            <div>
+                <h1 class="display-6 text-primary m-0 p-2">Bienvenido/a @Model.FirstName @Model.LastName</h1>
+            </div>
+        </section>
+        <section class="bg-primary bg-gradient border w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-between align-items-center">
+            <div>
+                <h1 class="display-6 text-white m-0 p-2">Mis Cuentas</h1>
+            </div>
+        </section>
+
+    @if (currentUserProducts != null && currentUserProducts.Count > 0)
+    {
+        <div class="row">
+
+        @if (TempData["PaymentSucceed"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <p>@TempData["PaymentSucceed"]</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
+        }
+                @foreach (var account in currentUserProducts)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card border-0">
+                        <div class="card-header p-4 bg-primary text-white">
+                            <h5 class="card-title mb-0">No. de Cuenta: @account.AccountId</h5>
+                        </div>
+                        <div class="card-body main-text">
+                            <p>
+                                <strong>Tipo de Producto:</strong>
+                                @if (account.ProductType == ProductType.Savings)
+                                {
+                                    <span>Cuenta de Ahorros</span>
+                                }
+                                else if (account.ProductType == ProductType.Loan)
+                                {
+                                    <span>Préstamo</span>
+                                }
+                                else if (account.ProductType == ProductType.CreditCard)
+                                {
+                                    <span>Tarjeta de Crédito</span>
+                                }
+                            </p>
+                            @if (account.ProductType == ProductType.Savings)
+                            {
+                                <p><strong>Balance:</strong> RD$ @account.Amount</p>
+                            }
+                            else if (account.ProductType == ProductType.Loan)
+                            {
+                                <p><strong>Monto Aprobado:</strong> RD$ @account.Amount</p>
+                                <p><strong>Deuda Pendiente:</strong> RD$ @account.Debt</p>
+                            }
+                            else if (account.ProductType == ProductType.CreditCard)
+                            {
+                                <p><strong>Límite:</strong> RD$ @account.Amount</p>
+                                <p><strong>Monto Pendiente:</strong> RD$ @account.Debt</p>
+                            }
+                            @if (account.IsMain == true)
+                            {
+                                <span class="badge badge-success bg-success">Cuenta Principal</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+            <section class="bg-primary bg-gradient border w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-6 text-white m-0 p-2">No tiene cuentas asociadas.</h1>
+                </div>
+            </section>
+    }
+</div>  
+}
+
+<style>
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 18px;
+        margin-bottom: 0;
+    }
+
+    .card-text {
+        margin-bottom: 0.5rem;
+    }
+
+    .select-custom {
+        width: 200px; /* Ancho personalizado */
+        height: 40px; /* Altura personalizada */
+        border-radius: 5px; /* Bordes redondeados */
+        border: 1px solid #ccc; /* Borde */
+        padding: 0 10px; /* Espaciado interno */
+        font-size: 16px; /* Tamaño de fuente */
+        color: #333; /* Color del texto */
+        background-color: #fff; /* Color de fondo */
+    }
+</style>

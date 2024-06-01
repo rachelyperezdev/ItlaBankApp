@@ -1,0 +1,104 @@
+﻿@using ItlaBankApp.Core.Application.Enums
+@using ItlaBankApp.Core.Application.ViewModels.User;
+@model SaveUserViewModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card shadow m-4">
+                <div class="card-header bg-primary bg-gradient text-white">
+                    <h4 class="m-2 display-6 fst-italic">Registra un nuevo usuario</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.HasError)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <p>@Model.Error</p>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    <form method="post" asp-controller="User" asp-action="Register">
+
+                        <div class="mb-3">
+                            <label asp-for="FirstName" class="form-label main-text">Nombre</label>
+                            <input asp-for="FirstName" class="form-control" />
+                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="LastName" class="form-label main-text">Apellido</label>
+                            <input asp-for="LastName" class="form-control" />
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="IdentificationCard" class="form-label main-text">Cédula</label>
+                            <input asp-for="IdentificationCard" class="form-control" />
+                            <span asp-validation-for="IdentificationCard" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label main-text">Correo</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label main-text">Número Telefónico</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label main-text">Nombre de usuario</label>
+                            <input asp-for="Username" class="form-control" />
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label main-text">Contraseña</label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label main-text">Confirmar contraseña</label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Role" class="form-label main-text">Rol</label>
+                            <select id="roleSelect" asp-for="Role" class="form-select text-dark">
+                                <option value="">Seleccione un rol</option>
+                                @foreach (var role in Enum.GetValues(typeof(Roles)))
+                                {
+                                    <option value="@role">@role</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Role" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3 form-group" id="amountField">
+                            <label asp-for="Amount" class="control-label main-text">Monto</label>
+                            <input asp-for="Amount" class="form-control" disabled />
+                            <span asp-validation-for="Amount" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary m-2">Guardar</button>
+                            <a asp-controller="User" asp-action="Index" class="btn btn-outline-primary m-2">Volver atrás</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/site.js"></script>
+
+

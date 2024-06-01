@@ -1,0 +1,36 @@
+﻿@using ItlaBankApp.Core.Application.ViewModels.Payment;
+@model SavePaymentViewModel;
+@{
+    ViewData["Title"] = "Confirmar Pago";
+}
+
+
+<div class="container-fluid" style="height: 70vh">
+    <div class="row justify-content-center mt-5">
+        <div class="col-12 text-center">
+            <h4 class="main-text display-6 fst-italic fw-bold">Confirme el Pago</h4>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-8 text-center">
+            <p class="mb-4"><strong>@Model.HolderFullName</strong></p>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center align-items-center">
+        <section class="bg-white bg-gradient shadow-lg w-100 mb-2 mt-2 p-2 d-flex flex-row justify-content-center align-items-center">
+
+            <div>
+                <form method="post" asp-controller="Payment" asp-action="ConfirmPaymentPost">
+                    <div class="w-100 my-2 mt-3 mb-1 d-flex flex-row justify-content-center align-items-center">
+                        <button type="submit" class="btn btn-primary m-2">Confirmar</button>
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary m-2">Volver</a>
+                    </div>
+                    <input type="hidden" asp-for="Amount" />
+                    <input type="hidden" asp-for="OriginId" />
+                    <input type="hidden" asp-for="DestinationId" />
+                    <input type="hidden" asp-for="PaymentType" />
+                </form>
+            </div>
+        </section>
+    </div>
+</div>

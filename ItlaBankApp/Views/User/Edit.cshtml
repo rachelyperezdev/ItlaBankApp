@@ -1,0 +1,90 @@
+﻿@using ItlaBankApp.Core.Application.Enums
+@using ItlaBankApp.Core.Application.ViewModels.User;
+@model SaveUserViewModel;
+@{
+    ViewData["Title"] = "Editar Usuario";
+
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6 offset-3">
+            <div class="card m-4 border-0 rounded-3 shadow">
+                <div class="card-header bg-primary bg-gradient text-light p-2">
+                    <h4 class="m-2 display-6">Editar usuario</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post" asp-controller="User" asp-action="Edit">
+                        @if (!ViewData.ModelState.IsValid)
+                        {
+                            @Html.ValidationSummary(false, "", new { @class = "alert alert-danger" })
+                        }
+                        @if (Model.HasError)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <p>@Model.Error</p>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+                        <div class="mb-3">
+                            <label asp-for="FirstName" class="form-label main-text">Nombre</label>
+                            <input asp-for="FirstName" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="LastName" class="form-label main-text">Apellido</label>
+                            <input asp-for="LastName" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="IdentificationCard" class="form-label main-text">Cédula</label>
+                            <input asp-for="IdentificationCard" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label main-text">Email</label>
+                            <input asp-for="Email" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PhoneNumber" class="form-label main-text">Número telefónico</label>
+                            <input asp-for="PhoneNumber" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label main-text">Nombre de usuario</label>
+                            <input asp-for="Username" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label main-text">Contraseña</label>
+                            <input asp-for="Password" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label main-text">Confirmar Contraseña</label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                        </div>
+
+                        @if(Model.Role == Roles.Client.ToString())
+                        {
+                            <div class="mb-3 form-group" id="amountField">
+                                <label asp-for="Amount" class="control-label main-text">Monto</label>
+                                <input asp-for="Amount" class="form-control"/>
+                                <span asp-validation-for="Amount" class="text-danger"></span>
+                            </div>
+                        }
+
+                        <input type="hidden" asp-for="Role" />
+                        <input type="hidden" asp-for="Username" />
+
+                        <div class="d-flex justify-content-end">
+                            <a asp-controller="User" asp-action="AdminUsers" class="btn btn-outline-primary m-2">Volver atrás</a>
+                            <button type="submit" class="btn btn-primary m-2">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

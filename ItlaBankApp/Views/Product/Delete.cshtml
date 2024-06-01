@@ -1,0 +1,28 @@
+﻿@using ItlaBankApp.Core.Application.ViewModels.Product;
+@model SaveProductViewModel
+
+@{
+    ViewData["Title"] = "Eliminar producto";
+}
+
+<div class="container-fluid d-flex align-items-center justify-content-center custom-height rounded" style="height:70vh">
+    <div class="row rounded bg-transparent">
+        <div class="custom-delete-card rounded border-0 box-shadow rounded-top shadow">
+            <div class="custom-card-header p-2 bg-primary bg-gradient text-dark rounded-top">
+                <h4 class="text-light display-6 m-2">¿Estás seguro que quieres eliminar el producto '@Model.AccountId'?</h4>
+            </div>
+            <div class="custom-card-body rounded-bottom">
+                <div class="d-flex justify-content-center rounded-bottom">
+                    <form method="post" asp-controller="Product" asp-action="DeletePost">
+                        <input type="hidden" asp-for="AccountId" />
+                        <div class="text-center m-4">
+                            <input type="hidden" name="id" value="@Model.AccountId" />
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <a asp-controller="User" asp-action="AdminUsers" class="btn btn-warning ml-2">Cancelar</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

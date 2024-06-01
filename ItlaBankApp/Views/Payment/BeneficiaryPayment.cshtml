@@ -1,0 +1,67 @@
+﻿@using ItlaBankApp.Core.Application.ViewModels.Payment;
+@using ItlaBankApp.Core.Application.ViewModels.Product;
+@model SavePaymentViewModel;
+@{
+    ViewData["Title"] = "Pago Beneficiario";
+    var beneficiaries = ViewBag.Beneficiaries;
+    var originAccounts = ViewBag.Origins;
+}
+
+
+<div class="container-fluid">
+    <section class="bg-primary bg-gradient border w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-between align-items-center">
+        <div>
+            <h1 class="display-6 text-white m-0 p-2">Pago a Beneficiarios</h1>
+        </div>
+    </section>
+
+    <section class="w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-between align-items-center">
+        <div class="w-100">
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    @Html.ValidationSummary(false, "", new { @class = "mb-0" })
+                    <p>@TempData["ErrorMessage"]</p>
+                </div>
+            }
+            else if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    @Html.ValidationSummary(false, "", new { @class = "mb-0" })
+                    <p>@TempData["ErrorMessage"]</p>
+                </div>
+            }
+        </div>
+    </section>
+
+    <section class="w-100 h-100 bg-white d-flex flex-row justify-content-center gap-2 align-items-center">
+        <form method="post" asp-controller="Payment" asp-action="BeneficiaryPayment" class="w-100 p-2 rounded bg-white mx-auto shadow-lg d-flex flex-row flex-wrap justify-content-evenly align-items-center">
+            <div class="w-25 mt-4 mx-1">
+                <label asp-for="OriginId" class="form-label main-text">Cuentas de Ahorro:</label>
+                <select asp-for="OriginId" asp-items="@(new SelectList(originAccounts, "AccountId", "AccountId"))" class="form-control">
+                    <option value="0">Seleccione una Cuenta de Ahorro</option>
+                </select>
+            </div>
+
+            <div class="w-25 mt-4 mx-1">
+                <label asp-for="Amount" class="form-label main-text">Monto:</label>
+                <input asp-for="Amount" step="any" class="form-control" />
+            </div>
+
+            <div class="w-25 mt-4 mx-1">
+                <label asp-for="DestinationId" class="form-label main-text">Cuentas de Beneficiarios:</label>
+                <select asp-for="DestinationId" asp-items="@(new SelectList(beneficiaries, "AccountId", "AccountId"))" class="form-control">
+                    <option value="0">Seleccione un Beneficiario</option>
+                </select>
+            </div>
+
+            <div class="w-100 my-2 mt-3 mb-4 d-flex flex-row justify-content-evenly align-items-center">
+                <button class="btn btn-primary bg-gradient w-25">Confirmar Pago</button>
+            </div>
+        </form>
+
+    </section>
+
+</div>

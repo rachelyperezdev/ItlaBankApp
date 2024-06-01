@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="DTOs\Account\Base\BaseResponse" />
+    <None Remove="DTOs\Account\NewFile1.txt" />
+    <None Remove="DTOs\Account\NewFile2.txt" />
+    <None Remove="Enums\NewFile1.txt" />
+    <None Remove="Interfaces\Services\Generic\NewFile1.txt" />
+    <None Remove="Interfaces\Services\NewFile1.txt" />
+    <None Remove="Services\BeneficiaryService" />
+    <None Remove="Services\BeneficiaryService,cs" />
+    <None Remove="Services\NewFile1.txt" />
+    <None Remove="ViewModels\Payment\NewFile1.txt" />
+    <None Remove="ViewModels\Product\NewFile1.txt" />
+    <None Remove="ViewModels\Product\NewFile2.txt" />
+    <None Remove="ViewModels\User\NewFile1.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Extensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.17" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ItlaBankApp.Core.Domain\ItlaBankApp.Core.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

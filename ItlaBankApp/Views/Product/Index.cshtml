@@ -1,0 +1,123 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using ItlaBankApp.Core.Application.Enums
+@using ItlaBankApp.Core.Application.DTOs.Account;
+@using ItlaBankApp.Core.Application.ViewModels.Product;
+
+@model List<ProductViewModel>
+
+@{
+    ViewData["Title"] = "Cuentas";
+}
+
+<div class="container-fluid">
+    <section class="bg-primary bg-gradient border w-100 mb-4 mt-4 p-2 d-flex flex-row justify-content-between align-items-center">
+        <div>
+            <h1 class="display-6 text-white m-0 p-2">Cuentas del Cliente</h1>
+        </div>
+    </section>
+
+    @if (Model != null && Model.Any())
+    {
+        <div class="row">
+
+            @foreach (var account in Model)
+            {
+                <div class="col-md-4 mb-3">
+                    <div class="card border-0">
+                        <div class="card-header p-4 bg-primary text-white">
+                            <h5 class="card-title mb-0">Cuenta: @account.AccountId</h5>
+                        </div>
+                        <div class="card-body main-text">
+                            <p>
+                                <strong>Tipo de Producto:</strong>
+                                @if (account.ProductType == ProductType.Savings)
+                                {
+                                    <span>Cuenta de Ahorros</span>
+                                }
+                                else if (account.ProductType == ProductType.Loan)
+                                {
+                                    <span>Préstamo</span>
+                                }
+                                else if (account.ProductType == ProductType.CreditCard)
+                                {
+                                    <span>Tarjeta de Crédito</span>
+                                }
+                            </p>
+                            @if (account.ProductType == ProductType.Savings)
+                            {
+                                <p><strong>Balance:</strong> RD$ @account.Amount</p>
+                            }
+                            else if (account.ProductType == ProductType.Loan)
+                            {
+                                <p><strong>Monto Aprobado:</strong> RD$ @account.Amount</p>
+                                <p><strong>Deuda Pendiente:</strong> RD$ @account.Debt</p>
+                            }
+                            else if (account.ProductType == ProductType.CreditCard)
+                            {
+                                <p><strong>Límite:</strong> RD$ @account.Amount</p>
+                                <p><strong>Monto Pendiente:</strong> RD$ @account.Debt</p>
+                            }
+
+                            <!-- Botón de Eliminar -->
+                            @if (account.IsMain == false)
+                            {
+                                <a asp-controller="Product" asp-action="Delete" asp-route-id="@account.AccountId" class="btn btn-sm btn-outline-danger">Borrar</a>
+                            }
+                            else
+                            {
+                                <span class="badge badge-success bg-success">Cuenta Principal</span>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p>Este cliente no tiene ninguna cuenta asociada.</p>
+    }
+</div>
+
+
+<style>
+    .card {
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+    .card-header {
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+    .card-title {
+        font-size: 18px;
+        margin-bottom: 0;
+    }
+
+    .card-text {
+        margin-bottom: 0.5rem;
+    }
+
+    .select-custom {
+        width: 200px; /* Ancho personalizado */
+        height: 40px; /* Altura personalizada */
+        border-radius: 5px; /* Bordes redondeados */
+        border: 1px solid #ccc; /* Borde */
+        padding: 0 10px; /* Espaciado interno */
+        font-size: 16px; /* Tamaño de fuente */
+        color: #333; /* Color del texto */
+        background-color: #fff; /* Color de fondo */
+    }
+</style>
